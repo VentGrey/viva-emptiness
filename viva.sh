@@ -1,9 +1,9 @@
 #! /usr/bin/env bash
 
-
-[ -L "$0" ] && pushd `readlink $0 | xargs dirname` > /dev/null \
-    || pushd `dirname $0` > /dev/null
-export OPATH=`pwd -P`
+[ -L "$0" ] && pushd "readlink $0 | xargs dirname" > /dev/null \
+    || pushd "$(dirname "$0")" > /dev/null || exit
+OPATH=$(pwd -P)
+export OPATH
 popd > /dev/null || exit
 
 function use {
@@ -22,7 +22,7 @@ function use {
           modules:
 __EOF__
 
-    for i in ${OPATH}/breeds/*; do
+    for i in "${OPATH}"/breeds/*; do
         [ ! -L "$i" -a -f "$i" ] && echo "            ${i##*/}"
     done
 
@@ -33,6 +33,6 @@ __EOF__
 OPTIONS=$1; shift;
 
 [ ! -f "${OPATH}/breeds/${OPTIONS}" ] && use
-${OPATH}/breeds/${OPTIONS} "$@"
+"${OPATH}"/breeds/"${OPTIONS}" "$@"
 
-# Orchid 2020 - VentGrey
+# Viva Emptiness 2020 - VentGrey
